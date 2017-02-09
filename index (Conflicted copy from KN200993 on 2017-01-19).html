@@ -1,0 +1,234 @@
+<!doctype html>
+<html>
+  <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>De Monitor Overlay ControlPanel</title>
+
+
+        <script src="https://cdn.socket.io/socket.io-1.2.0.js"></script>
+    <script src="http://code.jquery.com/jquery-1.11.1.js"></script>
+
+    <!-- Latest compiled and minified CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+
+    <!-- Optional theme -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
+
+    <!-- Latest compiled and minified JavaScript -->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+    <style>
+      * { 
+        margin: 0; 
+        padding: 0; 
+      }
+      body { 
+          background:#34495e;
+          color:white;
+          font-family:Helvetica, Arial, sans-serif;
+          font-size:10pt;
+      }
+      .container{
+        padding-top:50px;
+      }
+
+      #msg{
+        width:100%;
+        height:75px;
+        color:#444;
+        font-size:30px;
+        border-radius:5px;
+        border:0px solid;
+        padding:20px;
+        background-color:#1c2833;
+      }
+      ::-webkit-scrollbar {
+        width: 0px;  /* remove scrollbar space */
+        background: transparent;  /* optional: just make scrollbar invisible */
+      }
+      /* optional: show position indicator in red */
+      ::-webkit-scrollbar-thumb {
+          background: #FF0000;
+      }
+      #msg:focus {
+        outline:0;
+        background-color:#fff;
+      }
+      .msgInput button{
+        color:#000;
+        font-size:30px;
+        color:#fff;
+        width:100%;
+        height:75px;
+        bottom:0px;
+        border:0px;
+        background-color:#38c1de;
+        border-radius:5px;
+
+      }
+      .msgInput button:focus{
+        outline:0;
+      }
+
+      .msgStyle li{
+        list-style: none;
+        font-size:18px;
+      }
+
+
+      .inputSeconds{
+        font-size:30px;
+        color:#222;
+        width:100%;
+        height:75px;
+        border-radius:5px;
+        border:0px solid;
+        text-align:center;
+      }
+
+      #messages { 
+       list-style-type: none;
+       margin: 0; 
+       padding: 0; 
+       height:300px;
+       overflow-y: scroll;
+
+     }
+      #messages li { 
+        padding: 5px 10px; 
+        margin-bottom: 10px;
+        width:300px;
+        height:50px;
+        color:#222;
+        text-align:left;
+        border-bottom-right-radius: 10px;
+        border-left: 20px solid #fff;
+      }
+      .redactie{
+        background-color:rgba(255,255,255,.8);
+      }
+      .factCheck{
+        background-color:rgba(227,192,127,.8);
+      }
+      .laatsteVraag{
+        background-color:rgba(233,93,179,.5);
+      }
+
+
+
+      .settings{
+        margin-bottom:50px;
+        padding-bottom:10px;
+        border-bottom:1px solid #567798;
+      }
+      .postIDInputLabel{
+                position: relative;
+        float:left;
+        width:50px;
+        height:40px;
+        color:#444;
+        font-size:20px;
+        border-radius:5px;
+        border:0px solid;
+        padding:8px 10px 10px 15px;
+        border-top-right-radius: 0px;
+        border-bottom-right-radius:0px;
+        background-color:#fff;
+      }
+      .postIDInput{
+        position: relative;
+        float:left;
+        width:calc(100% - 50px);
+        height:30px;
+        color:#444;
+        font-size:20px;
+        border-radius:5px;
+        border-top-left-radius: 0px;
+        border-bottom-left-radius:0px;
+        border:0px solid;
+        padding:20px;
+        background-color:#1c2833;
+      }
+      .live{
+        float:left;
+        font-size:20px;
+        padding-left:20px;
+      }
+      .liveCircle {
+        float:left;
+        border-radius: 50%;
+        width: 20px;
+        height: 20px; 
+        background-color:#86de38;
+    }
+    </style>
+  </head>
+  <body>
+
+  <div class="container">
+
+    <div class="row settings">
+        <div class="col-md-2">
+        <div class="liveCircle"></div><span class="live">Connected</span>
+        </div>
+        <div class="col-md-5">
+            <form action="" class='postId'>
+              <div class="postIDInputLabel">ID</div><input class="postIDInput" placeholder="Facebook post ID"></input>
+            </form>
+        </div>
+    </div>
+
+    
+    <div class="row">
+      <form action="" class='msgInput'>
+      <div class="col-md-7"><input id="msg" placeholder="Zet hier je tekst neer" autocomplete="off" /></div>
+      <div class="col-md-1">
+<!--       Aantal Seconde
+ -->      <input type='number' value="5" class="inputSeconds">
+      </div>
+      <div class="col-md-2">
+      <ul class="msgStyle">
+        <li><input type="radio" name="msgStyle" id="option1" value="redactie" autocomplete="off" checked> Redactie </li>
+        <li><input type="radio" name="msgStyle" id="option2" value="factCheck" autocomplete="off"> Fact check</li>
+        <li><input type="radio" name="msgStyle" id="option3" value="laatsteVraag" autocomplete="off"> Laatste vraag </li>
+      </ul>
+      </div>
+      <div class="col-md-2"><button>Plaatsen</button></div>
+      </form>
+    </div>
+    <div class="row">
+    <!--
+      <div id="messages">
+      </div>
+    -->
+    </div>
+  </div>
+
+    <script>
+      var socket = io();
+      $('form').submit(function(){
+        var data = {};
+        data.msg = $('#msg').val();
+        data.sec = $('.inputSeconds').val()
+        data.msgStyle = $('input[name=msgStyle]').filter(':checked').val();
+
+        console.log(data);
+
+        socket.emit('chat message', data);
+        $('#msg').val('');
+        return false;
+
+      });
+      socket.on('newConnection', function(msgs){
+      // $('#messages').val('');
+
+      //   for(var i = 0; i < msgs.length; i++){
+      //      $('#messages').append($('<li>').text(msgs[i].msg).attr('class',msgs[i].msgStyle));
+      //   }
+      //   $('#messages').scrollTop($('#messages')[0].scrollHeight);
+
+      });
+
+    </script>
+  </body>
+</html>
