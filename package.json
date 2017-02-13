@@ -2,6 +2,9 @@
   "name": "SecondLayer",
   "version": "0.0.1",
   "description": "De Monitor",
+  "engines" : { 
+  "node" : ">=0.10.3 <0.12" 
+  }, 
   "dependencies": {
     "express": "*",
     "jQuery": "^1.7.4",
