@@ -31,7 +31,7 @@
 					likedShown.push(liked[counter]);
 					console.log('newObject');
 					$face = $('<img>').attr('src',liked[counter].pic_large).attr('class','likeFace');
-					$face.delay(3000).fadeOut(400);
+					$face.delay(2700).fadeOut(400);
 					
 					$('.likeFacesContainer').append($face);
 				
