@@ -1,11 +1,16 @@
 		var access_token = '300916473635695|-JiAKyIwEKwBRoc7J2bjXYm2YYo'; 
-		var postID = '1234790766605507'; 
 		var likedShown = [];
 		var counter = 0;
 		var liked = [];
 
+			var postID = undefined; 
+			var url = undefined;
+		socket.on('getEmojiData', function(data){
+			postID = data.postID;
+			url = 'https://graph.facebook.com/v2.8/'+ postID + '/reactions' + '?fields=' + 'pic%2Cpic_large%2Cname%2Ctype%2Ccreated_time' + '&limit=3000' + '&access_token=' + access_token;
+			console.log(postID);
+		});
 
-		var url = 'https://graph.facebook.com/v2.8/'+ postID + '/reactions' + '?fields=' + 'pic%2Cpic_large%2Cname%2Ctype%2Ccreated_time' + '&limit=3000' + '&access_token=' + access_token;
 
 
 		function getData(){
