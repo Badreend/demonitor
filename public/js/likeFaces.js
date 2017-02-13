@@ -31,7 +31,7 @@
 					likedShown.push(liked[counter]);
 					console.log('newObject');
 					$face = $('<img>').attr('src',liked[counter].pic_large).attr('class','likeFace');
-					$face.delay(2500).fadeOut(4000);
+					$face.delay(3000).fadeOut(400);
 					
 					$('.likeFacesContainer').append($face);
 				
@@ -42,8 +42,9 @@
 
 			}
 		}
-		setInterval(update, 3000);
-		setInterval(getData, 3000);
+				setInterval(getData, 3500);
+
+		setInterval(update, 3500);
 
 
 

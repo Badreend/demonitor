@@ -440,6 +440,7 @@
 		$('.pollContainer').css('visibility','hidden');
 		socket.on('showPoll', function(_data){
 			if(_data.bool){
+				console.log(_data.time);
 				$('.timer').countdown(_data.time, function(event) {
 					$(this).html(event.strftime('%M:%S'));
 				});
