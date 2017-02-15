@@ -60,7 +60,8 @@ io.on('connection', function(socket){
 		sendMsgData();
 	});
 	socket.on('pollState', function(_data){
-		var data = {};
+		console.log(_data);
+		var data = _data;
 		data.bool = _data.bool;
 		if(_data){
 			data.time = addMinutes(new Date(),_data.minutes).toLocaleString();
@@ -69,7 +70,7 @@ io.on('connection', function(socket){
 			console.log(data);
 
 		}
-
+		console.log(data);
 
 		io.emit('showPoll', data);
 	});

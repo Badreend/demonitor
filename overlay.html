@@ -396,7 +396,6 @@
 					</div>
 					<img src="love.png">
 					<div class="pollLabelNameLeft">
-						Chantal Nijkerken-de Haan (VVD)
 					</div>
 				</div>
 				<div class="pollLabelRight">
@@ -404,7 +403,6 @@
 					</div>
 					<img src="haha.png">
 					<div class="pollLabelNameRight">
-						Linda Voortman (GroenLinks)
 					</div>
 				</div>
 				<div class="bottomBar">
@@ -443,6 +441,11 @@
 		$('.pollContainer').css('visibility','hidden');
 		socket.on('showPoll', function(_data){
 			if(_data.bool){
+				$(".pollLabelNameLeft").html(_data.nameLeft);
+				$(".pollLabelNameRight").html(_data.nameRight);
+				$(".leftProf").attr("src",_data.fotoLeft);
+				$(".rightProf").attr("src",_data.fotoRight);
+
 				var date = new Date(_data.time); 
 				$('.timer').countdown(date, function(event) {
 					$(this).html(event.strftime('%M:%S'));
@@ -460,7 +463,6 @@
 			var foto = ['badr.png','willeke.png','jerry.png','thomas.png'];
 			var naam = ['Badr','Willeke','Jerry','Thomas'];
 			if ($('.newMsg').length > 0) {
-				console.log(data)
 
 				$('.newMsg').remove();
 			};
@@ -503,8 +505,7 @@
 					val = 38;
 				}
 				
-				console.log(charLength);
-				console.log(val);
+
 
 				return val.toString()+"px";
 			}
@@ -526,6 +527,10 @@
 			$(".loveBar").width(data.aPer+"%");
 
 			$(".percentageLeft").html(Math.round(data.aPer)+"%");
+
+
+
+
 			$(".hahaBar").width(data.bPer+"%");
 
 			$(".percentageRight").html(Math.round(data.bPer)+"%");
@@ -539,7 +544,6 @@
 			for(var i = 0; i < data.length; i++){
 				tickerItems.push(data[i].msg);
 			} 
-			console.log(tickerItems);
 			$('#tickerList').empty();
 			viewportWidth = 0;
 			for(var i = 0; i < tickerItems.length; i++){

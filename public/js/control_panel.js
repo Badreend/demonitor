@@ -42,7 +42,6 @@
 
 
  $('.tickerForm').submit(function(){
-  console.log('newTicker')
   var data = {};
   data.msg = $('.tickerInput').val();
   socket.emit('newTick', data);
@@ -55,7 +54,6 @@
 
 
  socket.on('getTickerList', function(tickerList){
-  console.log(tickerList);
   $('#tickerList').html('');
   $('#tickerList').val('');
 
@@ -75,9 +73,13 @@
 
  $('.pollActive').change(function(e){
   var pollData = {};
-  console.log($('.pollActive').prop('checked'));
   pollData.bool = $('.pollActive').prop('checked');
   pollData.minutes = $('.pollDuration').val();
 
+  pollData.nameLeft = $('.nameLeft').val();
+  pollData.nameRight = $('.nameRight').val();
+  pollData.fotoLeft = $('.fotoLeft').val();
+  pollData.fotoRight = $('.fotoRight').val();
+  console.log(pollData);
   socket.emit('pollState', pollData);
 });

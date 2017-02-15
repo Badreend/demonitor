@@ -8,7 +8,6 @@
 		socket.on('getEmojiData', function(data){
 			postID = data.postID;
 			url = 'https://graph.facebook.com/v2.8/'+ postID + '/reactions' + '?fields=' + 'pic%2Cpic_large%2Cname%2Ctype%2Ccreated_time' + '&limit=3000' + '&access_token=' + access_token;
-			console.log(postID);
 		});
 
 
@@ -20,7 +19,6 @@
 				}
 				liked = res.data;
 				liked.reverse();
-				console.log(liked.length);
 			});
 		}
 
@@ -32,18 +30,11 @@
 						return;
 					}
 				}
-
 					likedShown.push(liked[counter]);
-					console.log('newObject');
 					$face = $('<img>').attr('src',liked[counter].pic_large).attr('class','likeFace');
-					$face.delay(2700).fadeOut(400);
-					
+					$face.delay(2700).fadeOut(400);					
 					$('.likeFacesContainer').append($face);
-				
-
-					counter++;
-				
-
+					counter++;	
 
 			}
 		}
